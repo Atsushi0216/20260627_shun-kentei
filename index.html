@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食の目利き検定——旬を知る、目利きを磨く</title>
+    <meta name="description" content="「この果物、いつが旬？」「美味しい見分け方は？」——いちじく・桃農家が出す18問。あなたの食リテラシー偏差値が分かります。">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="食の目利き検定——旬を知る、目利きを磨く">
+    <meta property="og:description" content="「この果物、いつが旬？」「美味しい見分け方は？」——いちじく・桃農家が出す18問。あなたの食リテラシー偏差値が分かります。">
+    <meta property="og:image" content="assets/ogp.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="食の目利き検定——旬を知る、目利きを磨く">
+    <meta name="twitter:description" content="「この果物、いつが旬？」「美味しい見分け方は？」——いちじく・桃農家が出す18問。あなたの食リテラシー偏差値が分かります。">
+    <meta name="twitter:image" content="assets/ogp.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- バックグラウンドの淡いグロー -->
+        <div class="bg-glow"></div>
+
+        <!-- ライト/ダーク切替トグル（全画面共通・右上固定） -->
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="ライト/ダーク切替">🌙</button>
+
+        <!-- 作者ドロワー（全画面共通・右上🐑ボタン） -->
+        <button id="author-toggle" class="author-toggle" type="button" aria-label="つくった人">🐑</button>
+        <div id="author-overlay" class="author-overlay hidden"></div>
+        <div id="author-drawer" class="author-drawer hidden">
+            <div class="author-card">
+                <div class="author-avatar">
+                    <img src="assets/author-avatar.webp" alt="もくもく" width="160" height="160" onerror="this.style.display='none'">
+                </div>
+                <p class="author-badge">🐑 つくった人</p>
+                <p class="author-name">もくもく</p>
+                <p class="author-bio">
+                    いちじくや桃を育てる「くだもの農家」。<br>
+                    3人の子供のパパ。<br>
+                    畑の合間に AI でツールを作って<br>
+                    もくもく作業する毎日です 🐑
+                </p>
+                <p class="author-likes">
+                    すきなもの：甘いもの<br>
+                    ほしいもの：羊用の高性能毛刈りバリカン
+                </p>
+                <div class="author-links">
+                    <a href="https://x.com/mahoramasheep" target="_blank" rel="noopener noreferrer">𝕏</a>
+                    <a href="https://note.com/mahoramasheep" target="_blank" rel="noopener noreferrer">Note</a>
+                    <a href="https://substack.com/@mahorama" target="_blank" rel="noopener noreferrer">Substack</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. スタート画面 -->
+        <section id="start-screen" class="active">
+            <header>
+                <div class="subtitle">あなたの"食リテラシー"、何点？</div>
+                <h1>食の目利き検定</h1>
+            </header>
+
+            <main class="menu-box">
+                <div class="hero">
+                    <p class="hero-hook">あなたの<strong>食リテラシー偏差値</strong>、<br>60秒で出します。</p>
+                    <p class="hero-sub">表示される食の常識を <kbd>←</kbd> <kbd>→</kbd> で2択仕分けするだけ。</p>
+                </div>
+
+                <button id="btn-start" class="btn-primary">🎯 検定スタート（60秒）</button>
+                <p class="keyboard-hint">
+                    <kbd>Space</kbd> または <kbd>Enter</kbd> でスタート
+                </p>
+
+                <p class="hero-trust">🐑 くだもの農家が畑の合間に作りました ／ ブラウザ完結・データ送信なし</p>
+
+                <details class="how-details">
+                    <summary>どんなゲーム？ ／ 6つの食リテラシーとは</summary>
+                    <div class="how-body">
+                        <ul>
+                            <li>いちじく・桃農家が出題する2択クイズ（全18問・制限60秒）</li>
+                            <li>表示される「食の常識」が “ちがう” か “正しい” かを ← → で仕分け</li>
+                            <li>結果で6つの食リテラシー（旬どき・目利き・保存・食べごろ・品種・使いきり）をレーダー化し、弱点を名指し</li>
+                            <li>連続正解でタイム回復＆コンボボーナス</li>
+                        </ul>
+                    </div>
+                </details>
+            </main>
+
+            <footer>
+                <p>© 2026 まほらまプロジェクト / お悩み解決サイト選手権 応募作品</p>
+            </footer>
+        </section>
+
+        <!-- 2. ゲームプレイ画面 -->
+        <section id="game-screen" class="hidden">
+            <button id="btn-abort" class="game-abort" type="button" aria-label="最初からやり直す（スタートへ戻る）">
+                ↻ やり直す <kbd class="abort-kbd">Esc</kbd>
+            </button>
+
+            <!-- ゲームヘッダー（SCORE左・TIME中央大・問題番号右） -->
+            <div class="game-header">
+                <div class="header-item header-left">
+                    <span class="label">SCORE</span>
+                    <span id="score-val" class="value">00000</span>
+                </div>
+                <div class="header-item header-center">
+                    <span id="time-val" class="timer-value">60.0</span>
+                    <span class="label">TIME</span>
+                </div>
+                <div class="header-item header-right">
+                    <span class="label">QUEST</span>
+                    <span id="progress-text" class="value quest-val">0/18</span>
+                </div>
+            </div>
+
+            <!-- タイマー進捗バー -->
+            <div class="progress-container">
+                <div id="time-bar" class="progress-bar"></div>
+            </div>
+
+            <!-- 出題進捗バー -->
+            <div class="quest-progress-bar">
+                <div id="quest-steps-container" class="quest-steps-container"></div>
+            </div>
+
+            <!-- 問題カードエリア -->
+            <div class="card-area">
+                <div id="combo-container" class="combo-invisible">
+                    <span id="combo-val" class="value">0</span><span class="label">COMBO</span>
+                </div>
+                <div id="question-card" class="card">
+                    <div class="card-hint-left">❌ ちがう ⬅</div>
+                    <div class="card-hint-right">➔ 正しい ⭕</div>
+                    <div class="card-body">
+                        <div id="q-category" class="q-category">カテゴリ</div>
+                        <p id="q-text" class="q-text">お題テキストがここに表示されます。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ゲーム開始時のあそびかたコーチマーク（オンボーディング） -->
+            <div id="game-coach" class="game-coach hidden" role="dialog" aria-label="あそびかた">
+                <div class="coach-split">
+                    <div class="coach-side coach-bad"><span class="coach-arrow">⬅</span><span>ちがう<br>(❌)</span></div>
+                    <div class="coach-side coach-good"><span>正しい<br>(⭕)</span><span class="coach-arrow">➔</span></div>
+                </div>
+                <p class="coach-howto">キーボード <kbd>←</kbd> <kbd>→</kbd> ／ 画面の左右タップで仕分け！</p>
+                <p class="coach-dismiss">タップしてスタート</p>
+            </div>
+
+            <!-- スマホ用・左右タップ誘導表示 -->
+            <div class="touch-zones">
+                <div id="zone-left" class="zone zone-bad">
+                    <kbd class="zone-key">←</kbd>
+                    <span class="zone-label">ちがう</span>
+                    <span class="zone-sub">❌</span>
+                </div>
+                <div class="zone-vs">or</div>
+                <div id="zone-right" class="zone zone-good">
+                    <kbd class="zone-key">→</kbd>
+                    <span class="zone-label">正しい</span>
+                    <span class="zone-sub">⭕</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 結果画面 -->
+        <section id="result-screen" class="hidden">
+
+            <!-- 結果カード（1枚にまとめる・PNG保存対象） -->
+            <div id="result-card" class="result-card">
+                <div class="result-card-inner">
+                    <p class="rc-title">食の目利き検定</p>
+                    <p class="rc-label">食リテラシー偏差値</p>
+                    <p class="rc-score" id="deviation-val">50</p>
+                    <p class="rc-rank" id="result-rank">🚀 AIネイティブ（超越者）</p>
+
+                    <div class="rc-radar">
+                        <canvas id="radar-canvas" width="240" height="240"></canvas>
+                    </div>
+
+                    <div id="weakness-box" class="rc-weakness">
+                        <p>あなたの弱点は</p>
+                        <p class="weakness-name" id="weakness-name"><strong>『旬どき』</strong></p>
+                    </div>
+
+                    <div class="rc-details" id="rc-details">
+                        <span>正解 <span id="correct-count">0</span>/<span id="total-count">18</span></span>
+                        <span>正解率 <span id="accuracy-val">0</span>%</span>
+                    </div>
+                    <div class="rc-details" id="rc-context">
+                        <span id="rc-profession">食の目利き検定</span>
+                        <div id="rc-timeout-detail" style="display: none; margin-top: 0.2rem; font-size: 0.78rem; opacity: 0.85;">⏱ 回答 <span id="rc-timeout-answered">0</span> / 全 <span id="rc-timeout-total">18</span> 問</div>
+                    </div>
+
+                    <div class="rc-credit">
+                        <span>🐑 もくもく</span>
+                        <span>#お悩み解決サイト選手権</span>
+                    </div>
+                </div>
+            </div>
+
+            <main class="result-body">
+                <!-- 診断アドバイス -->
+                <div class="advice-box">
+                    <h3>💡 農家からのアドバイス</h3>
+                    <p id="result-advice">診断結果に合わせたアドバイスがここに表示されます。</p>
+                </div>
+
+                <!-- アクションボタン -->
+                <div class="action-box action-row">
+                    <button id="btn-save-card" class="btn-secondary">📥 カードを保存</button>
+                    <button id="btn-share" class="btn-share">𝕏 シェアする</button>
+                </div>
+                <div class="action-box">
+                    <button id="btn-retry" class="btn-secondary">もう一度挑戦する</button>
+                    <p class="keyboard-hint">
+                        <kbd>Space</kbd> もう一度 ／ <kbd>Esc</kbd> トップへ
+                    </p>
+                </div>
+
+                <!-- 今回の仕分けレビュー（大喜利解説ログ） -->
+                <div class="review-box">
+                    <h3>📝 今回の仕分けログ</h3>
+                    <div id="review-list" class="review-list">
+                        <!-- 動的に解説カードを挿入 -->
+                    </div>
+                </div>
+
+                <!-- 作者タブ -->
+                <hr class="author-sep">
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <img src="assets/author-avatar.webp" alt="もくもく" width="160" height="160" onerror="this.style.display='none'">
+                    </div>
+                    <p class="author-badge">🐑 つくった人</p>
+                    <p class="author-name">もくもく</p>
+                    <p class="author-bio">
+                        いちじくや桃を育てる「くだもの農家」。<br>
+                        3人の子供のパパ。<br>
+                        畑の合間に AI でツールを作って<br>
+                        もくもく作業する毎日です 🐑
+                    </p>
+                    <p class="author-likes">
+                        すきなもの：甘いもの<br>
+                        ほしいもの：切れ味抜群の毛刈り用バリカン
+                    </p>
+                    <div class="author-links">
+                        <a href="https://x.com/mahoramasheep" target="_blank" rel="noopener noreferrer">𝕏</a>
+                        <a href="https://note.com/mahoramasheep" target="_blank" rel="noopener noreferrer">Note</a>
+                        <a href="https://substack.com/@mahorama" target="_blank" rel="noopener noreferrer">Substack</a>
+                    </div>
+                </div>
+            </main>
+        </section>
+    </div>
+
+    <!-- ゲームロジック -->
+    <script src="app.js"></script>
+</body>
+</html>
