@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>食の目利き検定——旬を知る、目利きを磨く</title>
+    <title>食の目利き検定——農家の検定シリーズ｜お悩み解決サイト選手権</title>
     <meta name="description" content="「この果物、いつが旬？」「美味しい見分け方は？」——いちじく・桃農家が出す18問。あなたの食リテラシー偏差値が分かります。">
     
     <!-- Favicon -->
@@ -11,13 +11,13 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="食の目利き検定——旬を知る、目利きを磨く">
+    <meta property="og:title" content="食の目利き検定——農家の検定シリーズ｜お悩み解決サイト選手権">
     <meta property="og:description" content="「この果物、いつが旬？」「美味しい見分け方は？」——いちじく・桃農家が出す18問。あなたの食リテラシー偏差値が分かります。">
     <meta property="og:image" content="assets/ogp.png">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="食の目利き検定——旬を知る、目利きを磨く">
+    <meta name="twitter:title" content="食の目利き検定——農家の検定シリーズ｜お悩み解決サイト選手権">
     <meta name="twitter:description" content="「この果物、いつが旬？」「美味しい見分け方は？」——いちじく・桃農家が出す18問。あなたの食リテラシー偏差値が分かります。">
     <meta name="twitter:image" content="assets/ogp.png">
 
@@ -56,6 +56,17 @@
                     すきなもの：甘いもの<br>
                     ほしいもの：羊用の高性能毛刈りバリカン
                 </p>
+                <div class="author-series" style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border); font-size: 0.8rem; text-align: left; line-height: 1.5;">
+                    <p style="font-weight: 700; color: var(--accent); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.2rem;">🌱 農家の検定シリーズ</p>
+                    <ul style="padding-left: 0.5rem; list-style: none;">
+                        <li style="margin-bottom: 0.2rem;">├ <a href="https://scintillating-tartufo-aa6428.netlify.app/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: var(--accent);">AIリテラシー検定</a></li>
+                        <li style="margin-bottom: 0.2rem;">├ <strong>食の目利き検定</strong>（今ここ）</li>
+                        <li>└ 第3弾は準備中...</li>
+                    </ul>
+                    <p style="font-style: italic; font-size: 0.72rem; opacity: 0.8; margin-top: 0.6rem; border-left: 2px solid var(--accent); padding-left: 0.4rem; line-height: 1.4;">
+                        「AIが全部答えを持つ時代に、"作る側の人間"だけが渡せる知恵を、遊びにして手渡す」
+                    </p>
+                </div>
                 <div class="author-links">
                     <a href="https://x.com/mahoramasheep" target="_blank" rel="noopener noreferrer">𝕏</a>
                     <a href="https://note.com/mahoramasheep" target="_blank" rel="noopener noreferrer">Note</a>
@@ -184,6 +195,11 @@
                     <p class="rc-title">食の目利き検定</p>
                     <p class="rc-label">食リテラシー偏差値</p>
                     <p class="rc-score" id="deviation-val">50</p>
+                    <div id="rc-food-type-box" class="rc-food-type-box" style="margin: -0.2rem 0 0.8rem;">
+                        <span style="font-size: 0.75rem; opacity: 0.8; font-weight: 500;">あなたの食タイプ</span>
+                        <p id="rc-food-type" style="font-size: 1.25rem; font-weight: 900; margin-top: 0.1rem; color: var(--accent);">🏆 食リテラシーマスター</p>
+                        <p id="rc-food-type-msg" style="font-size: 0.7rem; font-style: italic; opacity: 0.85; max-width: 280px; margin: 0.2rem auto 0; line-height: 1.3;">バランス型。農家も認める食通です</p>
+                    </div>
                     <p class="rc-rank" id="result-rank">🚀 AIネイティブ（超越者）</p>
 
                     <div class="rc-radar">
@@ -216,6 +232,10 @@
                 <div class="advice-box">
                     <h3>💡 農家からのアドバイス</h3>
                     <p id="result-advice">診断結果に合わせたアドバイスがここに表示されます。</p>
+                    <div id="weakness-advice-box" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); text-align: left;">
+                        <h4 style="font-size: 0.88rem; font-weight: 700; color: var(--bad); display: flex; align-items: center; gap: 0.3rem;">🍑 農家アツシより弱点へのアドバイス</h4>
+                        <p id="weakness-advice-detail" style="font-size: 0.82rem; margin-top: 0.5rem; line-height: 1.6; color: var(--text);"></p>
+                    </div>
                 </div>
 
                 <!-- アクションボタン -->
@@ -256,6 +276,17 @@
                         すきなもの：甘いもの<br>
                         ほしいもの：切れ味抜群の毛刈り用バリカン
                     </p>
+                    <div class="author-series" style="margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--border); font-size: 0.8rem; text-align: left; line-height: 1.5;">
+                        <p style="font-weight: 700; color: var(--accent); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.2rem;">🌱 農家の検定シリーズ</p>
+                        <ul style="padding-left: 0.5rem; list-style: none;">
+                            <li style="margin-bottom: 0.2rem;">├ <a href="https://scintillating-tartufo-aa6428.netlify.app/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline; color: var(--accent);">AIリテラシー検定</a></li>
+                            <li style="margin-bottom: 0.2rem;">├ <strong>食の目利き検定</strong>（今ここ）</li>
+                            <li>└ 第3弾は準備中...</li>
+                        </ul>
+                        <p style="font-style: italic; font-size: 0.72rem; opacity: 0.8; margin-top: 0.6rem; border-left: 2px solid var(--accent); padding-left: 0.4rem; line-height: 1.4;">
+                            「AIが全部答えを持つ時代に、"作る側の人間"だけが渡せる知恵を、遊びにして手渡す」
+                        </p>
+                    </div>
                     <div class="author-links">
                         <a href="https://x.com/mahoramasheep" target="_blank" rel="noopener noreferrer">𝕏</a>
                         <a href="https://note.com/mahoramasheep" target="_blank" rel="noopener noreferrer">Note</a>

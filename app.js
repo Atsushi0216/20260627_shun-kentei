@@ -241,29 +241,74 @@ function drawRadar(domainStats) {
 const RANKS = [
     {
         minAccuracy: 0.8,
-        name: 'AIネイティブ（超越者）',
-        emoji: '🚀',
-        advice: '見事。あなたはもうAIを「道具」ではなく「相棒」として動かせています。次の景色は、自分だけの経験・判断・失敗談をAIに渡して“世界に一つの相棒”を育てること。あなたが切り拓く道が、そのまま誰かの地図になります。',
+        name: '伝説の食通（超越者）',
+        emoji: '👑',
+        advice: 'お見事！農家も驚くほどの圧倒的な食リテラシーです。旬を逃さず、美味しいものを完璧に見極めるあなたの目はプロそのもの。これからも豊かな食生活を楽しみながら、周囲にもその知恵を分けてあげてください。',
     },
     {
         minAccuracy: 0.6,
-        name: 'AIネイティブ覚醒中',
-        emoji: '⚡',
-        advice: 'いい流れです。「制約を渡す」「形式を指定する」という型はもう手の内に。あと一歩は、あなたの現場の“肌感覚”を言葉にしてAIへ渡すこと。そこから、あなたにしか出せない答えが立ち上がります。',
+        name: 'こだわり食いしん坊',
+        emoji: '😋',
+        advice: '素晴らしい！食の常識をしっかり身につけています。美味しさのポイントや保存法を理解しており、日々の食事をとても豊かに楽しめているはず。あと一歩で、農家顔負け of 目利きになれます！',
     },
     {
         minAccuracy: 0.4,
-        name: 'AIネイティブ見習い',
-        emoji: '🌱',
-        advice: '「丸投げ」と「使いこなす」の間を行き来している、伸びしろ全開の地点です。まずひとつだけ——指示に「相手は誰か／どんな形式で／どんな条件か」を書き添えてみてください。それだけで返ってくる答えが見違えます。',
+        name: 'お買い物見習い',
+        emoji: '🛒',
+        advice: '伸びしろ十分！なんとなく感覚で選んでいる部分があるかもしれません。でも大丈夫、知るだけで変わるコツばかりです。次に買い物に行くときは、学んだポイントを一つずつ試してみてくださいね。',
     },
     {
         minAccuracy: 0,
-        name: '現場感覚の達人',
-        emoji: '⚔️',
-        advice: 'あなたが積み上げてきた“本物の現場感覚”は、AIには真似できない財産です。それは弱点ではなく、最強の元手。その感覚にAIを掛け算した瞬間、誰も追いつけない強さになります。焦らなくていい。面白がるところから、ここがスタートラインです。',
+        name: '伸びしろしかない消費者',
+        emoji: '🌱',
+        advice: 'ここがスタートラインです！今まで知らなかった食の常識に触れて、世界が少し広がったはず。スーパーでの果物・野菜選びがもっと面白くなりますよ。焦らず、美味しい体験を重ねていきましょう！',
     }
 ];
+
+// ============================================================
+// FOOD TYPE SYSTEM
+// ============================================================
+const FOOD_TYPES = {
+    season:     { name: '旬ハンター',     emoji: '🗓', message: '旬を知ってる人は、スーパーで宝探しができる' },
+    megiki:     { name: '目利きの達人',   emoji: '👀', message: '美味しいを見分ける目は、一生モノの財産です' },
+    hozon:      { name: '保存マスター',   emoji: '❄',  message: '正しく保存すれば、果物の命が何倍にも伸びる' },
+    tabegoro:   { name: '食べごろ名人',   emoji: '🍽', message: '食べごろを見極める人は、日常を贅沢にできる' },
+    hinshu:     { name: '品種マニア',     emoji: '🌱', message: '品種名を見る習慣だけで、果物体験が別世界になる' },
+    tsukaikiri: { name: '使いきり番長',   emoji: '♻',  message: '捨てない知恵は、食材への最高の敬意です' },
+    balanced:   { name: '食リテラシーマスター', emoji: '🏆', message: 'バランス型。農家も認める食通です' },
+};
+
+function determineFoodType(domainStats) {
+    let bestKey = null;
+    let bestRate = -1;
+    let tieCount = 0;
+    for (const d of DOMAINS) {
+        const s = domainStats[d.key];
+        if (!s || s.total === 0) continue;
+        const rate = s.correct / s.total;
+        if (rate > bestRate) {
+            bestRate = rate;
+            bestKey = d.key;
+            tieCount = 1;
+        } else if (rate === bestRate) {
+            tieCount++;
+        }
+    }
+    if (tieCount === DOMAINS.length || bestKey === null) return FOOD_TYPES.balanced;
+    return FOOD_TYPES[bestKey];
+}
+
+// ============================================================
+// WEAKNESS ADVICE FROM FARMER
+// ============================================================
+const WEAKNESS_ADVICE = {
+    season:     '次スーパー行ったら、値札の横の「産地・品種名」だけチェックしてみて。旬が見えてきます。',
+    megiki:     '目利きは慣れです。次に桃を買うとき、軸の周りの色だけ見てみて。それだけで変わります。',
+    hozon:      '「食べる2時間前に冷蔵庫へ」。これだけ覚えれば、果物の味が一段上がります。',
+    tabegoro:   'まずは一回、桃を手でむいてかぶりついてみてください。包丁は要りません。',
+    hinshu:     'スーパーの値札に品種名が書いてあります。同じ桃でも全然違うので、名前で選ぶクセをつけてみて。',
+    tsukaikiri: '食べきれない果物は迷わず冷凍庫へ。半解凍でシャーベットにすれば、最高のおやつになります。',
+};
 
 // ============================================================
 // RESULT CARD TIER（カード色のティア）
@@ -810,6 +855,13 @@ function endGame() {
     const domainStats = analyzeDomains(state.log);
     const weakness = findWeakness(domainStats);
 
+    // 食タイプの決定
+    const foodType = determineFoodType(domainStats);
+    const typeEl = document.getElementById('rc-food-type');
+    const typeMsgEl = document.getElementById('rc-food-type-msg');
+    if (typeEl) typeEl.textContent = `${foodType.emoji} ${foodType.name}`;
+    if (typeMsgEl) typeMsgEl.textContent = foodType.message;
+
     UI.deviationVal.textContent = deviation;
     UI.resultRank.textContent   = `${rank.emoji} ${rank.name}`;
     UI.correctCount.textContent = state.correctCount;
@@ -820,8 +872,20 @@ function endGame() {
     if (weakness) {
         UI.weaknessBox.style.display = '';
         UI.weaknessName.innerHTML = `<strong>『${weakness.label}』</strong>`;
+        
+        // 農家アツシからのアドバイスを表示
+        const advBox = document.getElementById('weakness-advice-box');
+        const advDetail = document.getElementById('weakness-advice-detail');
+        if (advBox && advDetail) {
+            advBox.style.display = 'block';
+            advDetail.textContent = (WEAKNESS_ADVICE[weakness.key] || '') + ' 🍑 農家アツシより';
+        }
     } else {
         UI.weaknessBox.style.display = 'none';
+        
+        // 弱点がない場合はアドバイスボックスを非表示に
+        const advBox = document.getElementById('weakness-advice-box');
+        if (advBox) advBox.style.display = 'none';
     }
 
     // --- ティア演出 ---
@@ -836,9 +900,11 @@ function endGame() {
 
     // パーフェクト（全問正解）時の祝福
     if (isPerfect) {
-        UI.resultRank.textContent = '🏆 PERFECT — AIネイティブ（超越者）';
+        UI.resultRank.textContent = '🏆 PERFECT — 伝説の食通（超越者）';
         // 弱点なしの場合は伸びしろ非表示（パーフェクトに弱点はない）
         UI.weaknessBox.style.display = 'none';
+        const advBox = document.getElementById('weakness-advice-box');
+        if (advBox) advBox.style.display = 'none';
         
         setTimeout(() => {
             SFX_CHEERS.currentTime = 0;
@@ -866,7 +932,7 @@ function endGame() {
             UI.resultAdvice.textContent = 
                 `${state.totalAnswered}問に挑戦しました。` +
                 `まずは正確さを磨き、慣れてきたらスピードも上げていきましょう。` +
-                `繰り返すほどAIリテラシーの地図が広がります。`;
+                `繰り返すほど食の目利きの地図が広がります。`;
         }
 
         // 回答数を表示
@@ -884,7 +950,7 @@ function endGame() {
 
     drawRadar(domainStats);
     buildReviewList();
-    setupShareButton(rank, accuracy, deviation, weakness);
+    setupShareButton(rank, accuracy, deviation, weakness, foodType);
 
     showScreen('result');
 }
@@ -911,11 +977,13 @@ function buildReviewList() {
     });
 }
 
-function setupShareButton(rank, accuracy, deviation, weakness) {
+function setupShareButton(rank, accuracy, deviation, weakness, foodType) {
     const weakLabel = weakness ? weakness.label : '';
+    const typeEmoji = foodType ? foodType.emoji : '🏆';
+    const typeName  = foodType ? foodType.name : '食リテラシーマスター';
     const shareText = [
-        `食リテラシー偏差値${deviation}！弱点は「${weakLabel}」🍑`,
-        `あなたの食の目利き力は？👇`
+        `食リテラシー偏差値${deviation}！タイプは「${typeEmoji}${typeName}」🍑`,
+        `弱点は「${weakLabel}」——あなたの食の目利き力は？👇`
     ].join('\n');
 
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('食の目利き検定,お悩み解決サイト選手権')}`;
@@ -946,23 +1014,7 @@ document.addEventListener('keydown', e => {
         case 'start':
             if (key === ' ' || key === 'Enter') {
                 e.preventDefault();
-                selectProfession('食材');
-            }
-            break;
-
-        // === 難易度選択画面 ===
-        case 'difficulty':
-            if (key === 'Escape') {
-                e.preventDefault();
-                showScreen('start');
-            }
-            if (key === '1') {
-                e.preventDefault();
-                selectDifficulty('beginner');
-            }
-            if (key === '2') {
-                e.preventDefault();
-                selectDifficulty('advanced');
+                startGame();
             }
             break;
 
@@ -987,7 +1039,7 @@ document.addEventListener('keydown', e => {
         case 'result':
             if (key === ' ' || key === 'Enter') {
                 e.preventDefault();
-                selectProfession('食材');  // もう一度挑戦
+                startGame();  // もう一度挑戦
             }
             if (key === 'Escape') {
                 e.preventDefault();
@@ -1080,34 +1132,41 @@ function saveResultCard() {
 
     ctx.fillStyle = textDim;
     ctx.font = '600 28px "Zen Kaku Gothic New", sans-serif';
-    ctx.fillText('食の目利き検定', W / 2, 80);
+    ctx.fillText('食の目利き検定', W / 2, 70);
 
     ctx.font = '500 24px "Zen Kaku Gothic New", sans-serif';
-    ctx.fillText('食リテラシー偏差値', W / 2, 130);
+    ctx.fillText('食リテラシー偏差値', W / 2, 115);
 
     const deviation = UI.deviationVal.textContent;
     ctx.fillStyle = accent;
-    ctx.font = '900 120px "Outfit", sans-serif';
-    ctx.fillText(deviation, W / 2, 270);
+    ctx.font = '900 110px "Outfit", sans-serif';
+    ctx.fillText(deviation, W / 2, 235);
+
+    // 食タイプを描画 (絵文字 + タイプ名)
+    const typeEl = document.getElementById('rc-food-type');
+    const typeText = typeEl ? typeEl.textContent : '';
+    ctx.fillStyle = accent;
+    ctx.font = '800 30px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText(typeText, W / 2, 290);
 
     const rankText = UI.resultRank.textContent;
     ctx.fillStyle = textMain;
-    ctx.font = '700 32px "Zen Kaku Gothic New", sans-serif';
-    ctx.fillText(rankText, W / 2, 340);
+    ctx.font = '700 26px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText(rankText, W / 2, 335);
 
     const radarSrc = UI.radarCanvas;
     if (radarSrc) {
-        ctx.drawImage(radarSrc, (W - 480) / 2, 370, 480, 480);
+        ctx.drawImage(radarSrc, (W - 440) / 2, 380, 440, 440);
     }
 
     const weaknessText = UI.weaknessName.textContent;
     if (weaknessText) {
         ctx.fillStyle = textDim;
         ctx.font = '500 24px "Zen Kaku Gothic New", sans-serif';
-        ctx.fillText('あなたの弱点は', W / 2, 900);
+        ctx.fillText('あなたの弱点は', W / 2, 875);
         ctx.fillStyle = bad;
-        ctx.font = '900 36px "Zen Kaku Gothic New", sans-serif';
-        ctx.fillText(weaknessText, W / 2, 950);
+        ctx.font = '900 34px "Zen Kaku Gothic New", sans-serif';
+        ctx.fillText(weaknessText, W / 2, 925);
     }
 
     const correct = UI.correctCount.textContent;
@@ -1121,17 +1180,17 @@ function saveResultCard() {
     const isTimeoutVisible = timeoutDetail && timeoutDetail.style.display !== 'none';
     if (isTimeoutVisible) {
         const answered = document.getElementById('rc-timeout-answered')?.textContent || '0';
-        ctx.fillText(`正解 ${correct}/${total} (回答 ${answered}問)　正解率 ${acc}%`, W / 2, 1030);
+        ctx.fillText(`正解 ${correct}/${total} (回答 ${answered}問)　正解率 ${acc}%`, W / 2, 1005);
     } else {
-        ctx.fillText(`正解 ${correct}/${total}　正解率 ${acc}%`, W / 2, 1030);
+        ctx.fillText(`正解 ${correct}/${total}　正解率 ${acc}%`, W / 2, 1005);
     }
 
     const profName = UI.rcProfession.textContent;
-    ctx.fillText(profName, W / 2, 1070);
+    ctx.fillText(profName, W / 2, 1045);
 
     ctx.fillStyle = isDark ? '#475569' : '#cbd5e1';
     ctx.font = '400 20px "Zen Kaku Gothic New", sans-serif';
-    ctx.fillText('🐑 もくもく　#お悩み解決サイト選手権', W / 2, 1180);
+    ctx.fillText('🌱 農家の検定シリーズ — いちじく・桃農家アツシ', W / 2, 1160);
 
     const link = document.createElement('a');
     link.download = `shun-kentei_偏差値${deviation}.png`;
