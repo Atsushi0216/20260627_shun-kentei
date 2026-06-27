@@ -245,7 +245,7 @@ h1 {
 }
 
 .hero-hook {
-    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-family: 'Zen Maru Gothic', sans-serif;
     font-size: clamp(1.6rem, 5vw, 2rem);
     font-weight: 900;
     line-height: 1.4;
@@ -376,7 +376,7 @@ footer {
 .select-header { text-align: center; }
 
 .select-title {
-    font-family: 'Outfit', 'Zen Kaku Gothic New', sans-serif;
+    font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
     font-size: clamp(1.4rem, 5vw, 2.2rem);
     font-weight: 800;
     letter-spacing: -.01em;
@@ -1014,37 +1014,37 @@ footer {
    RESULT CARD TIERS（カード色 — ゴールド/シルバー/ブロンズ/ペーパー）
    ============================================================ */
 
-/* ペーパー（デフォルト・偏差値60未満）: 温かみのある用紙色 */
+/* ペーパー（デフォルト・偏差値60未満）: 和紙の温かみのある白 */
 .result-card.tier-paper {
-    background: linear-gradient(160deg, #faf6f0 0%, #f0ebe3 100%);
-    border-color: #e0d8cc;
+    background: linear-gradient(160deg, #fdfbf7 0%, #faf6ee 100%);
+    border-color: #e6dfd3;
 }
 [data-theme="dark"] .result-card.tier-paper {
-    background: linear-gradient(160deg, #2a2520 0%, #1e1b17 100%);
-    border-color: #3d3630;
+    background: linear-gradient(160deg, #231f1a 0%, #1c1814 100%);
+    border-color: #383129;
 }
 
-/* ブロンズ（偏差値60-69）: 銅メダルの重厚感 */
+/* ブロンズ（偏差値60-69）: 赤土（テラコッタ）の重厚感 */
 .result-card.tier-bronze {
-    background: linear-gradient(160deg, #f7ede2 0%, #e8d5c0 50%, #d4b896 100%);
-    border-color: #c9a87c;
+    background: linear-gradient(160deg, #fbf2eb 0%, #f0dec8 50%, #ddbca3 100%);
+    border-color: #caa084;
     box-shadow: 0 4px 20px rgba(180, 140, 90, 0.15);
 }
 [data-theme="dark"] .result-card.tier-bronze {
-    background: linear-gradient(160deg, #2e2418 0%, #3a2e1f 50%, #4a3b28 100%);
-    border-color: #6b5535;
+    background: linear-gradient(160deg, #35251b 0%, #422e20 50%, #513928 100%);
+    border-color: #72523b;
     box-shadow: 0 4px 20px rgba(180, 140, 90, 0.1);
 }
 
-/* シルバー（偏差値70以上）: 銀の輝き */
+/* シルバー（偏差値70以上）: ほんのり薄桃がかった銀 */
 .result-card.tier-silver {
-    background: linear-gradient(160deg, #f5f5f7 0%, #e8e8ee 50%, #d8d8e3 100%);
-    border-color: #c0c0d0;
+    background: linear-gradient(160deg, #fff0f2 0%, #fbe2e5 50%, #f0cacf 100%);
+    border-color: #e0acb2;
     box-shadow: 0 4px 24px rgba(150, 150, 180, 0.2);
 }
 [data-theme="dark"] .result-card.tier-silver {
-    background: linear-gradient(160deg, #2a2a32 0%, #32323c 50%, #3a3a48 100%);
-    border-color: #5a5a6e;
+    background: linear-gradient(160deg, #382528 0%, #422d30 50%, #4f363a 100%);
+    border-color: #704b50;
     box-shadow: 0 4px 24px rgba(150, 150, 180, 0.1);
 }
 
@@ -1294,13 +1294,30 @@ footer {
 }
 
 .review-item {
-    background: var(--bg-inset);
     border-radius: 12px;
     padding: .9rem 1.1rem;
-    border-left: 3px solid transparent;
+    border-left: 4px solid transparent;
+    transition: background .2s ease;
 }
-.review-item.correct { border-left-color: var(--good); }
-.review-item.wrong   { border-left-color: var(--bad);  }
+.review-item.correct {
+    border-left-color: var(--good);
+    background: var(--good-soft);
+}
+.review-item.wrong {
+    border-left-color: var(--bad);
+    background: var(--bad-soft);
+}
+
+.review-category-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.2em 0.6em;
+    border-radius: 4px;
+    margin-bottom: 0.4rem;
+}
 
 .review-q {
     font-size: .83rem;
@@ -1318,7 +1335,7 @@ footer {
 .review-item.wrong   .review-verdict { color: var(--bad);  }
 
 .review-explanation {
-    font-size: .79rem;
+    font-size: .88rem;
     color: var(--text-dim);
     line-height: 1.7;
 }

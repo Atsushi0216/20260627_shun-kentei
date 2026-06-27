@@ -883,12 +883,12 @@ function endGame() {
         UI.weaknessBox.style.display = '';
         UI.weaknessName.innerHTML = `<strong>『${weakness.label}』</strong>`;
         
-        // 農家アツシからのアドバイスを表示
+        // 農家もくもくからのアドバイスを表示
         const advBox = document.getElementById('weakness-advice-box');
         const advDetail = document.getElementById('weakness-advice-detail');
         if (advBox && advDetail) {
             advBox.style.display = 'block';
-            advDetail.textContent = (WEAKNESS_ADVICE[weakness.key] || '') + ' 🍑 農家アツシより';
+            advDetail.textContent = (WEAKNESS_ADVICE[weakness.key] || '') + ' 🍑 農家もくもくより';
         }
     } else {
         UI.weaknessBox.style.display = 'none';
@@ -979,9 +979,10 @@ function buildReviewList() {
         const div = document.createElement('div');
         div.className = `review-item ${ok ? 'correct' : 'wrong'}`;
         div.innerHTML = `
+            <div class="review-category-badge">${q.category}</div>
             <div class="review-q">${truncated}</div>
             <div class="review-verdict">${verdict}</div>
-            <div class="review-explanation">${q.explanation}</div>
+            <div class="review-explanation">🍑 ${q.explanation}</div>
         `;
         UI.reviewList.appendChild(div);
     });
@@ -1114,14 +1115,22 @@ function saveResultCard() {
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
     
     // 背景グラデーション (ライト/ダークで暖色トーン)
-    const c1 = isDark ? '#231e17' : '#faf7f2';
-    const c2 = isDark ? '#1a1510' : '#f3efe6';
+    const c1 = isDark ? '#2a2318' : '#faf7f2';
+    const c2 = isDark ? '#1a1510' : '#f0ebe1';
     const grad = ctx.createLinearGradient(0, 0, 0, H);
     grad.addColorStop(0, c1);
     grad.addColorStop(1, c2);
     ctx.fillStyle = grad;
     roundRect(ctx, 0, 0, W, H, 40);
     ctx.fill();
+
+    // カード外周に破線ボーダーを描画 (ナチュラル感の演出)
+    ctx.strokeStyle = isDark ? 'rgba(240, 232, 216, 0.16)' : 'rgba(61, 50, 38, 0.15)';
+    ctx.lineWidth = 4;
+    ctx.setLineDash([8, 8]);
+    roundRect(ctx, 16, 16, W - 32, H - 32, 28);
+    ctx.stroke();
+    ctx.setLineDash([]); // リセット
 
     const textMain = isDark ? '#f0e8d8' : '#3d3226';
     const textDim  = isDark ? '#a89880' : '#8a7e6e';
@@ -1193,7 +1202,7 @@ function saveResultCard() {
 
     ctx.fillStyle = textDim;
     ctx.font = '500 20px "Zen Maru Gothic", sans-serif';
-    ctx.fillText('🌱 農家の検定シリーズ — いちじく・桃農家アツシ', W / 2, 1160);
+    ctx.fillText('🌱 農家の検定シリーズ — いちじく・桃農家もくもく', W / 2, 1160);
 
     const link = document.createElement('a');
     link.download = `shun-kentei_偏差値${deviation}.png`;
