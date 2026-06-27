@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -78,17 +78,21 @@
         <!-- 1. スタート画面 -->
         <section id="start-screen" class="active">
             <header>
-                <div class="subtitle">あなたの"食リテラシー"、何点？</div>
+                <div class="subtitle">🌱 農家の検定シリーズ</div>
                 <h1>食の目利き検定</h1>
+                <p class="start-fruits">🍑🫐🍇🍎🍈🥑</p>
             </header>
 
             <main class="menu-box">
                 <div class="hero">
-                    <p class="hero-hook">あなたの<strong>食リテラシー偏差値</strong>、<br>60秒で出します。</p>
-                    <p class="hero-sub">表示される食の常識を <kbd>←</kbd> <kbd>→</kbd> で2択仕分けするだけ。</p>
+                    <p class="hero-hook">
+                        <strong>「この果物、いつが旬？」</strong><br>
+                        <strong>「美味しい見分け方は？」</strong>
+                    </p>
+                    <p class="hero-sub">いちじく・桃農家アツシが出す18問で<br>あなたの<strong>食リテラシー偏差値</strong>を測ります。</p>
                 </div>
 
-                <button id="btn-start" class="btn-primary">🎯 検定スタート（60秒）</button>
+                <button id="btn-start" class="btn-primary">🍑 検定スタート（60秒）</button>
                 <p class="keyboard-hint">
                     <kbd>Space</kbd> または <kbd>Enter</kbd> でスタート
                 </p>
@@ -100,9 +104,9 @@
                     <div class="how-body">
                         <ul>
                             <li>いちじく・桃農家が出題する2択クイズ（全18問・制限60秒）</li>
-                            <li>表示される「食の常識」が “ちがう” か “正しい” かを ← → で仕分け</li>
-                            <li>結果で6つの食リテラシー（旬どき・目利き・保存・食べごろ・品種・使いきり）をレーダー化し、弱点を名指し</li>
-                            <li>連続正解でタイム回復＆コンボボーナス</li>
+                            <li>食の常識が "正しい" か "ちがう" かを ← → で仕分け</li>
+                            <li>結果で6つの食リテラシー（旬・目利き・保存・食べ方・品種・使い切り）をレーダー化し、弱点を名指し</li>
+                            <li>あなたの「食タイプ」と農家からのアドバイスも！</li>
                         </ul>
                     </div>
                 </details>

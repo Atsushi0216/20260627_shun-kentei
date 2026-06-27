@@ -1,52 +1,52 @@
 /* ===================================
-   勝手にAI相性検定 V2 — スタイルシート
-   premium / editorial・脱ネオン・ライト/ダーク両対応
-=================================== */
+   食の目利き検定 — スタイルシート
+   ナチュラル・暖色 / ライト/ダーク両対応
+ =================================== */
 
-/* === テーマ変数（ダーク既定） === */
+/* === テーマ変数（ライト既定） === */
 :root,
-:root[data-theme="dark"] {
-    --bg:            #0f1216;
-    --bg-elev:       #181c24;   /* カード面 */
-    --bg-inset:      #12151b;   /* 内側の囲み */
-    --bg-card:       #1c212b;   /* ホバー時等のカード背景 */
-    --text:          #e8eaf0;
-    --text-dim:      #9aa1b2;
-    --border:        rgba(255, 255, 255, .08);
-    --border-strong: rgba(255, 255, 255, .16);
-    --accent:        #e67e22;   /* 主アクション（温かいオレンジ） */
-    --accent-soft:   rgba(230, 126, 34, .14);
-    --on-accent:     #0f1216;
-    --good:          #57bd9c;   /* 正しい＝右 */
-    --good-soft:     rgba(87, 189, 156, .12);
-    --bad:           #d98072;   /* ちがう＝左 */
-    --bad-soft:      rgba(217, 128, 114, .12);
-    --combo:         #e3b774;
-    --glow:          rgba(230, 126, 34, .08);
-    --shadow:        0 14px 44px rgba(0, 0, 0, .45);
-    --shadow-sm:     0 4px 16px rgba(0, 0, 0, .35);
+:root[data-theme="light"] {
+    --bg:            #faf7f2;      /* クリーム・ナチュラル */
+    --bg-elev:       #ffffff;
+    --bg-inset:      #f3efe6;      /* 木目・自然な温もり */
+    --bg-card:       #f0ebe1;
+    --text:          #3d3226;      /* 深いこげ茶 */
+    --text-dim:      #8a7e6e;
+    --border:        rgba(61, 50, 38, .10);
+    --border-strong: rgba(61, 50, 38, .20);
+    --accent:        #d4702a;      /* 柿色・収穫のオレンジ */
+    --accent-soft:   rgba(212, 112, 42, .10);
+    --on-accent:     #ffffff;
+    --good:          #5a9e6f;      /* 葉っぱのグリーン */
+    --good-soft:     rgba(90, 158, 111, .10);
+    --bad:           #c75f4e;      /* 完熟の赤 */
+    --bad-soft:      rgba(199, 95, 78, .10);
+    --combo:         #b8892e;      /* 蜂蜜のゴールド */
+    --glow:          rgba(212, 112, 42, .06);
+    --shadow:        0 14px 40px rgba(61, 50, 38, .10);
+    --shadow-sm:     0 4px 14px rgba(61, 50, 38, .06);
 }
 
-:root[data-theme="light"] {
-    --bg:            #f6f5f1;
-    --bg-elev:       #ffffff;
-    --bg-inset:      #f1efe9;
-    --bg-card:       #eae8e0;
-    --text:          #20242e;
-    --text-dim:      #6b7280;
-    --border:        rgba(20, 24, 34, .10);
-    --border-strong: rgba(20, 24, 34, .20);
-    --accent:        #d35400;   /* 主アクション（少し濃いめのオレンジ） */
-    --accent-soft:   rgba(211, 84, 0, .10);
-    --on-accent:     #ffffff;
-    --good:          #2f9e7e;
-    --good-soft:     rgba(47, 158, 126, .10);
-    --bad:           #c75f4e;
-    --bad-soft:      rgba(199, 95, 78, .10);
-    --combo:         #c98a2e;
-    --glow:          rgba(211, 84, 0, .06);
-    --shadow:        0 14px 40px rgba(31, 36, 46, .12);
-    --shadow-sm:     0 4px 14px rgba(31, 36, 46, .08);
+:root[data-theme="dark"] {
+    --bg:            #1a1510;      /* 土の色・ダーク */
+    --bg-elev:       #231e17;
+    --bg-inset:      #1e1913;
+    --bg-card:       #2a2318;
+    --text:          #f0e8d8;      /* 和紙のクリーム */
+    --text-dim:      #a89880;
+    --border:        rgba(240, 232, 216, .08);
+    --border-strong: rgba(240, 232, 216, .16);
+    --accent:        #e8944a;      /* 明るい柿色 */
+    --accent-soft:   rgba(232, 148, 74, .12);
+    --on-accent:     #1a1510;
+    --good:          #6ab87f;
+    --good-soft:     rgba(106, 184, 127, .12);
+    --bad:           #d98072;
+    --bad-soft:      rgba(217, 128, 114, .12);
+    --combo:         #e3b774;
+    --glow:          rgba(232, 148, 74, .08);
+    --shadow:        0 14px 44px rgba(0, 0, 0, .45);
+    --shadow-sm:     0 4px 16px rgba(0, 0, 0, .35);
 }
 
 /* === Reset === */
@@ -55,7 +55,7 @@
 body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Inter', 'Zen Kaku Gothic New', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', 'Zen Maru Gothic', system-ui, -apple-system, sans-serif;
     min-height: 100svh;
     overflow-x: hidden;
     line-height: 1.6;
@@ -201,12 +201,24 @@ section.active  { display: flex; }
 }
 
 h1 {
-    font-family: 'Outfit', 'Zen Kaku Gothic New', sans-serif;
+    font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
     font-size: clamp(1.7rem, 5.5vw, 2.9rem);
     font-weight: 800;
     line-height: 1.18;
     letter-spacing: -.01em;
     color: var(--text);
+}
+
+.start-fruits {
+    font-size: 2rem;
+    letter-spacing: 0.3em;
+    margin: 0.5rem 0 0;
+    animation: gentle-bounce 3s ease-in-out infinite;
+}
+
+@keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
 }
 
 .tagline {
@@ -808,11 +820,11 @@ footer {
 }
 
 .q-category {
-    font-size: .68rem;
+    font-size: 1.4rem;    /* 現在の約2倍に */
     font-weight: 700;
-    letter-spacing: .12em;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.05em;
     color: var(--accent);
-    margin-bottom: 1rem;
 }
 
 .q-text {
@@ -1081,7 +1093,7 @@ footer {
 }
 
 .rc-rank {
-    font-family: 'Outfit', 'Zen Kaku Gothic New', sans-serif;
+    font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
     font-size: clamp(1rem, 3.5vw, 1.3rem);
     font-weight: 800;
     color: var(--text);
@@ -1109,7 +1121,7 @@ footer {
 }
 
 .rc-weakness .weakness-name {
-    font-family: 'Outfit', 'Zen Kaku Gothic New', sans-serif;
+    font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
     font-size: clamp(1.1rem, 3.5vw, 1.4rem);
     color: var(--bad);
 }
@@ -1358,7 +1370,7 @@ footer {
 }
 
 .author-name {
-    font-family: 'Outfit', 'Zen Kaku Gothic New', sans-serif;
+    font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
     font-size: 1.15rem;
     font-weight: 800;
     color: var(--text);

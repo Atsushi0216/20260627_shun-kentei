@@ -71,12 +71,12 @@ function pickQuestions(pool, total = 18, diffRange = null) {
 // key はJSONファイル名（questions/<key>.json）と一致させる。
 // available=false の職業は Step 7 で問題JSONを生成するまで「準備中」で非活性。
 const DOMAINS = [
-    { key: 'season',     label: '旬どき' },
+    { key: 'season',     label: '旬' },
     { key: 'megiki',     label: '目利き' },
-    { key: 'hozon',      label: '保存・追熟' },
-    { key: 'tabegoro',   label: '食べごろ' },
-    { key: 'hinshu',     label: '品種のひみつ' },
-    { key: 'tsukaikiri', label: '使いきり' },
+    { key: 'hozon',      label: '保存' },
+    { key: 'tabegoro',   label: '食べ方' },
+    { key: 'hinshu',     label: '品種' },
+    { key: 'tsukaikiri', label: '使い切り' },
 ];
 
 const DOMAIN_HINTS = {
@@ -216,8 +216,7 @@ function drawRadar(domainStats) {
     });
 
     // labels
-    ctx.font = '500 11px "Zen Kaku Gothic New", sans-serif';
-    ctx.textAlign = 'center';
+    ctx.font = '500 11px "Zen Maru Gothic", sans-serif';
     ctx.textBaseline = 'middle';
     DOMAINS.forEach((d, i) => {
         const a = startAngle + angleStep * i;
@@ -226,12 +225,23 @@ function drawRadar(domainStats) {
         let y = cy + lr * Math.sin(a);
         const s = domainStats[d.key];
         const pct = s.total > 0 ? Math.round(s.correct / s.total * 100) : 0;
+        
+        // 左半分のラベルは右寄せ、右半分は左寄せ、上下は中央
+        const cosA = Math.cos(a);
+        if (cosA < -0.1) {
+            ctx.textAlign = 'right';
+        } else if (cosA > 0.1) {
+            ctx.textAlign = 'left';
+        } else {
+            ctx.textAlign = 'center';
+        }
+        
         ctx.fillStyle = textColor;
         ctx.fillText(d.label, x, y - 7);
         ctx.fillStyle = dimColor;
         ctx.font = '600 10px "Outfit", monospace';
         ctx.fillText(pct + '%', x, y + 7);
-        ctx.font = '500 11px "Zen Kaku Gothic New", sans-serif';
+        ctx.font = '500 11px "Zen Maru Gothic", sans-serif';
     });
 }
 
@@ -496,7 +506,7 @@ function applyTheme(theme) {
 
 function initTheme() {
     const saved = localStorage.getItem(THEME_KEY);
-    applyTheme(saved === 'light' ? 'light' : 'dark'); // 既定はダーク
+    applyTheme(saved === 'dark' ? 'dark' : 'light'); // 既定はライト
 }
 
 function toggleTheme() {
@@ -1131,10 +1141,10 @@ function saveResultCard() {
     ctx.textAlign = 'center';
 
     ctx.fillStyle = textDim;
-    ctx.font = '600 28px "Zen Kaku Gothic New", sans-serif';
+    ctx.font = '600 28px "Zen Maru Gothic", sans-serif';
     ctx.fillText('食の目利き検定', W / 2, 70);
 
-    ctx.font = '500 24px "Zen Kaku Gothic New", sans-serif';
+    ctx.font = '500 24px "Zen Maru Gothic", sans-serif';
     ctx.fillText('食リテラシー偏差値', W / 2, 115);
 
     const deviation = UI.deviationVal.textContent;
@@ -1146,12 +1156,12 @@ function saveResultCard() {
     const typeEl = document.getElementById('rc-food-type');
     const typeText = typeEl ? typeEl.textContent : '';
     ctx.fillStyle = accent;
-    ctx.font = '800 30px "Zen Kaku Gothic New", sans-serif';
+    ctx.font = '800 30px "Zen Maru Gothic", sans-serif';
     ctx.fillText(typeText, W / 2, 290);
 
     const rankText = UI.resultRank.textContent;
     ctx.fillStyle = textMain;
-    ctx.font = '700 26px "Zen Kaku Gothic New", sans-serif';
+    ctx.font = '700 26px "Zen Maru Gothic", sans-serif';
     ctx.fillText(rankText, W / 2, 335);
 
     const radarSrc = UI.radarCanvas;
@@ -1162,10 +1172,10 @@ function saveResultCard() {
     const weaknessText = UI.weaknessName.textContent;
     if (weaknessText) {
         ctx.fillStyle = textDim;
-        ctx.font = '500 24px "Zen Kaku Gothic New", sans-serif';
+        ctx.font = '500 24px "Zen Maru Gothic", sans-serif';
         ctx.fillText('あなたの弱点は', W / 2, 875);
         ctx.fillStyle = bad;
-        ctx.font = '900 34px "Zen Kaku Gothic New", sans-serif';
+        ctx.font = '900 34px "Zen Maru Gothic", sans-serif';
         ctx.fillText(weaknessText, W / 2, 925);
     }
 
@@ -1173,7 +1183,7 @@ function saveResultCard() {
     const total = UI.totalCount.textContent;
     const acc = UI.accuracyVal.textContent;
     ctx.fillStyle = textDim;
-    ctx.font = '500 22px "Zen Kaku Gothic New", sans-serif';
+    ctx.font = '500 22px "Zen Maru Gothic", sans-serif';
     
     // 時間切れ時は画像にも回答数を反映
     const timeoutDetail = document.getElementById('rc-timeout-detail');
@@ -1189,7 +1199,7 @@ function saveResultCard() {
     ctx.fillText(profName, W / 2, 1045);
 
     ctx.fillStyle = isDark ? '#475569' : '#cbd5e1';
-    ctx.font = '400 20px "Zen Kaku Gothic New", sans-serif';
+    ctx.font = '400 20px "Zen Maru Gothic", sans-serif';
     ctx.fillText('🌱 農家の検定シリーズ — いちじく・桃農家アツシ', W / 2, 1160);
 
     const link = document.createElement('a');
