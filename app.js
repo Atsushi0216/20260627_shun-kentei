@@ -988,15 +988,12 @@ function buildReviewList() {
 }
 
 function setupShareButton(rank, accuracy, deviation, weakness, foodType) {
-    const weakLabel = weakness ? weakness.label : '';
+    const weakLabel = weakness ? weakness.label : 'なし';
     const typeEmoji = foodType ? foodType.emoji : '🏆';
     const typeName  = foodType ? foodType.name : '食リテラシーマスター';
-    const shareText = [
-        `食リテラシー偏差値${deviation}！タイプは「${typeEmoji}${typeName}」🍑`,
-        `弱点は「${weakLabel}」——あなたの食の目利き力は？👇`
-    ].join('\n');
+    const shareText = `食リテラシー偏差値${deviation}！\nタイプは「${typeEmoji} ${typeName}」\n弱点は「${weakLabel}」🍑\n\nあなたの食の目利き力は？👇\n${location.href}\n#食の目利き検定 #お悩み解決サイト選手権`;
 
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(location.href)}&hashtags=${encodeURIComponent('食の目利き検定,お悩み解決サイト選手権')}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
     UI.btnShare.onclick = () => window.open(twitterUrl, '_blank', 'noopener');
 }
 
@@ -1115,17 +1112,10 @@ function saveResultCard() {
     canvas.height = H;
 
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-    const resultCard = document.getElementById('result-card');
-    const tierClass = ['tier-gold','tier-silver','tier-bronze','tier-paper']
-        .find(c => resultCard.classList.contains(c)) || 'tier-paper';
     
-    const tierColors = {
-        'tier-gold':   isDark ? ['#3d3510','#6e5a12'] : ['#fff9e6','#ffcc33'],
-        'tier-silver': isDark ? ['#2a2a32','#3a3a48'] : ['#f5f5f7','#d8d8e3'],
-        'tier-bronze': isDark ? ['#2e2418','#4a3b28'] : ['#f7ede2','#d4b896'],
-        'tier-paper':  isDark ? ['#2a2520','#1e1b17'] : ['#faf6f0','#f0ebe3'],
-    };
-    const [c1, c2] = tierColors[tierClass];
+    // 背景グラデーション (ライト/ダークで暖色トーン)
+    const c1 = isDark ? '#231e17' : '#faf7f2';
+    const c2 = isDark ? '#1a1510' : '#f3efe6';
     const grad = ctx.createLinearGradient(0, 0, 0, H);
     grad.addColorStop(0, c1);
     grad.addColorStop(1, c2);
@@ -1133,16 +1123,16 @@ function saveResultCard() {
     roundRect(ctx, 0, 0, W, H, 40);
     ctx.fill();
 
-    const textMain = isDark ? '#e2e8f0' : '#1e293b';
-    const textDim  = isDark ? '#94a3b8' : '#64748b';
-    const accent   = isDark ? '#e67e22' : '#d35400';
+    const textMain = isDark ? '#f0e8d8' : '#3d3226';
+    const textDim  = isDark ? '#a89880' : '#8a7e6e';
+    const accent   = isDark ? '#e8944a' : '#d4702a';
     const bad      = isDark ? '#d98072' : '#c75f4e';
 
     ctx.textAlign = 'center';
 
     ctx.fillStyle = textDim;
     ctx.font = '600 28px "Zen Maru Gothic", sans-serif';
-    ctx.fillText('食の目利き検定', W / 2, 70);
+    ctx.fillText('🍑 食の目利き検定', W / 2, 70);
 
     ctx.font = '500 24px "Zen Maru Gothic", sans-serif';
     ctx.fillText('食リテラシー偏差値', W / 2, 115);
@@ -1152,31 +1142,34 @@ function saveResultCard() {
     ctx.font = '900 110px "Outfit", sans-serif';
     ctx.fillText(deviation, W / 2, 235);
 
-    // 食タイプを描画 (絵文字 + タイプ名)
-    const typeEl = document.getElementById('rc-food-type');
-    const typeText = typeEl ? typeEl.textContent : '';
+    // 食タイプを描画 (絵文字 + タイプ名 + メッセージ)
+    const domainStats = analyzeDomains(state.log);
+    const foodType = determineFoodType(domainStats);
     ctx.fillStyle = accent;
     ctx.font = '800 30px "Zen Maru Gothic", sans-serif';
-    ctx.fillText(typeText, W / 2, 290);
+    ctx.fillText(foodType.emoji + ' ' + foodType.name, W / 2, 290);
+    ctx.fillStyle = textDim;
+    ctx.font = '400 15px "Zen Maru Gothic", sans-serif';
+    ctx.fillText(foodType.message, W / 2, 325);
 
     const rankText = UI.resultRank.textContent;
     ctx.fillStyle = textMain;
     ctx.font = '700 26px "Zen Maru Gothic", sans-serif';
-    ctx.fillText(rankText, W / 2, 335);
+    ctx.fillText(rankText, W / 2, 370);
 
     const radarSrc = UI.radarCanvas;
     if (radarSrc) {
-        ctx.drawImage(radarSrc, (W - 440) / 2, 380, 440, 440);
+        ctx.drawImage(radarSrc, (W - 440) / 2, 410, 440, 440);
     }
 
     const weaknessText = UI.weaknessName.textContent;
     if (weaknessText) {
         ctx.fillStyle = textDim;
         ctx.font = '500 24px "Zen Maru Gothic", sans-serif';
-        ctx.fillText('あなたの弱点は', W / 2, 875);
+        ctx.fillText('あなたの弱点は', W / 2, 895);
         ctx.fillStyle = bad;
         ctx.font = '900 34px "Zen Maru Gothic", sans-serif';
-        ctx.fillText(weaknessText, W / 2, 925);
+        ctx.fillText(weaknessText, W / 2, 945);
     }
 
     const correct = UI.correctCount.textContent;
@@ -1190,16 +1183,16 @@ function saveResultCard() {
     const isTimeoutVisible = timeoutDetail && timeoutDetail.style.display !== 'none';
     if (isTimeoutVisible) {
         const answered = document.getElementById('rc-timeout-answered')?.textContent || '0';
-        ctx.fillText(`正解 ${correct}/${total} (回答 ${answered}問)　正解率 ${acc}%`, W / 2, 1005);
+        ctx.fillText(`正解 ${correct}/${total} (回答 ${answered}問)　正解率 ${acc}%`, W / 2, 1025);
     } else {
-        ctx.fillText(`正解 ${correct}/${total}　正解率 ${acc}%`, W / 2, 1005);
+        ctx.fillText(`正解 ${correct}/${total}　正解率 ${acc}%`, W / 2, 1025);
     }
 
     const profName = UI.rcProfession.textContent;
-    ctx.fillText(profName, W / 2, 1045);
+    ctx.fillText(profName, W / 2, 1065);
 
-    ctx.fillStyle = isDark ? '#475569' : '#cbd5e1';
-    ctx.font = '400 20px "Zen Maru Gothic", sans-serif';
+    ctx.fillStyle = textDim;
+    ctx.font = '500 20px "Zen Maru Gothic", sans-serif';
     ctx.fillText('🌱 農家の検定シリーズ — いちじく・桃農家アツシ', W / 2, 1160);
 
     const link = document.createElement('a');
